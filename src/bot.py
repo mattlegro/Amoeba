@@ -31,7 +31,7 @@ class MyBot(BaseAgent):
     def get_output(self, packet: GameTickPacket) -> SimpleControllerState:
         """
         This function will be called by the framework many times per second. This is where you can
-        see the motion of the ball, etc. and return controls to drive your car.
+        see the motion of the ball, etc. and return controls to drive your car. Test Changes.
         """
 
         # Keep game info up to date
