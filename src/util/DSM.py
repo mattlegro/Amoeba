@@ -73,11 +73,11 @@ def find_DSM_path(target: Vec3, pos_steps, velocity_steps, L_steps, controls_tra
 
             throttle_accel = find_throttle_accel(velocity_steps[time_step-1].length())
             accel_vec = Vec3( throttle_accel * math.cos(psi), throttle_accel * math.sin(psi), 0)
-            test_velos[t] = velocity_steps[time_step - 1] + accel_vec
+            test_velos[t] = velocity_steps[time_step - 1] + accel_vec * delta_t
 
             # store controls for step
 
-            test_controls[t] = ControlStep(duration = .10, controls = SimpleControllerState(throttle = 1.0, steer = turn_inputs[t]))
+            test_controls[t] = ControlStep(duration = delta_t, controls = SimpleControllerState(throttle = 1.0, steer = turn_inputs[t]))
 
             # find and store lagrangian for step
 
@@ -93,7 +93,7 @@ def find_DSM_path(target: Vec3, pos_steps, velocity_steps, L_steps, controls_tra
         velocity_steps[time_step] = test_velos[idx]
         L_steps[time_step] = test_lagrangians[idx]
         print(test_controls[idx])
-        controls_tracker[time_step-1] = test_controls[idx]
+        controls_tracker[time_step] = test_controls[idx]
 
         return find_DSM_path(target, pos_steps, velocity_steps, L_steps,
                              controls_tracker, num_guess_paths, num_time_steps, time_step+1)
