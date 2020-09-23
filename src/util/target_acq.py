@@ -10,9 +10,9 @@ def  time_to_target_estimate(target_current,target_velocity,car_location,car_vel
     c = relative_xy.length()
     target_vxy = target_velocity.flat()
     car_vxy = car_velocity.flat()
-    #if car_vxy.length == 0:
-    #    car_vxy.x = .1
-    #    car_vxy.y = .1
+    if car_vxy.length == 0:
+        car_vxy.x = .1
+        car_vxy.y = .1
         
     #print(f"Target Velocity = {target_vxy}")
     #print(f"Car Velocity = {car_vxy}")

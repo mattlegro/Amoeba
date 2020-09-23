@@ -71,19 +71,24 @@ class MyBot(BaseAgent):
 
         # TRY DSM METHOD
 
-
-        return self.take_DSM_path(packet, target_future)
-
-        # FAILURE
-
-        controls = SimpleControllerState()
-        controls.steer = steer_toward_target(self.car_tracker, target_future)
-        controls.throttle = 1.0
-
         disp_bot_thoughts(self,ball_prediction,target,self.car_tracker.location,target_future)
         disp_debug_text(self,self.car_tracker.velocity)
 
-        return controls
+        Sequence = self.take_DSM_path(packet, target_future)
+        #return self.take_DSM_path(packet, target_future)
+
+        # FAILURE
+
+        #controls = SimpleControllerState()
+        #controls.steer = steer_toward_target(self.car_tracker, target_future)
+        #controls.throttle = 1.0
+
+        disp_bot_thoughts(self,ball_prediction,target,self.car_tracker.location,target_future)
+        disp_debug_text(self,self.car_tracker.velocity)
+        self.active_sequence = Sequence
+
+        return self.active_sequence.tick(packet)
+
 
     def take_DSM_path(self, packet, target_location):
 
@@ -92,8 +97,8 @@ class MyBot(BaseAgent):
 
         # generate useful structures for path finder
 
-        num_time_steps = 5
-        num_guess_paths = 11
+        num_time_steps = 3
+        num_guess_paths = 5
         #L_steps = NestedArrayStructure(num_time_steps,num_guess_paths)
         L_steps = [0] * (num_time_steps + 1)
         velocity_steps, position_steps = L_steps[:], L_steps[:]
@@ -108,11 +113,16 @@ class MyBot(BaseAgent):
         L_steps[0] = kinetic - potential
 
         # find controls sequence using DSM method
-        self.active_sequence = find_DSM_path(target_location, 
-                                             position_steps, velocity_steps, L_steps, 
-                                             controls_tracker, num_guess_paths, num_time_steps, 1)
+        #self.active_sequence = find_DSM_path(target_location, 
+        #                                     position_steps, velocity_steps, L_steps, 
+        #                                     controls_tracker, num_guess_paths, num_time_steps, 1)
 
-        return self.active_sequence.tick(packet)
+        #return self.active_sequence.tick(packet)
+
+        return find_DSM_path(target_location, 
+                             position_steps, velocity_steps, L_steps, 
+                             controls_tracker, num_guess_paths, num_time_steps, 1)
+
 
     def begin_front_flip(self, packet):
         # Send some quickchat just for fun

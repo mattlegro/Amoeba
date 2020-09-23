@@ -109,12 +109,13 @@ class Vec3:
         cos_ang = self.dot(ideal) / (self.length() * ideal.length())
         return math.acos(cos_ang)
 
-    def rotate_to(self, angle) -> 'Vec3':
-        """Rotates Vector from current axes to a target axes in the x,y plane. Angle is radian measure between current and desired axes, i_hat and i_hat'.
+    def rotate_xy(self, angle) -> 'Vec3':
+        """Rotates Vector from current axes to a target axes in the x,y plane. 
+            Angle is radian measure between current and desired axes, i_hat and i_hat'.
             The sign of the angle is important!!!"""
 
         vertical_self_vec = np.array([[self.x],[self.y]])
-        Trans_Array = np.array([[math.cos(angle), math.sin(angle)],[-1*math.sin(angle), math.cos(angle)]])
+        Trans_Array = np.array([[math.cos(angle), -1*math.sin(angle)],[math.sin(angle), math.cos(angle)]])
         new_vec = np.dot(Trans_Array,vertical_self_vec)
 
         return Vec3(new_vec[0][0],new_vec[1][0],0)
