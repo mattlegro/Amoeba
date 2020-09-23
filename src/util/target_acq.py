@@ -28,7 +28,7 @@ def  time_to_target_estimate(target_current,target_velocity,car_location,car_vel
         B = math.asin(target_vxy.length()**math.sin(A)/car_vxy.length())
         #print(f"Angle B in Radians = {B}")
 
-    except ArithmeticError as error:
+    except mathdomainerror as error:
         # car cannot reach path at current speed
         time_to_target = 6
         

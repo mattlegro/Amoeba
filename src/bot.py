@@ -6,7 +6,7 @@ from util.ball_prediction_analysis import find_slice_at_time
 from util.boost_pad_tracker import BoostPadTracker
 from util.my_car import MyCarInfo
 from util.ball_info import BallInfo
-from util.DSM import NestedArrayStructure, find_DSM_path
+from util.DSM import find_DSM_path
 from util.drive import steer_toward_target
 from util.sequence import Sequence, ControlStep
 from util.vec import Vec3
