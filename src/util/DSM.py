@@ -5,19 +5,19 @@ from util.sequence import Sequence, ControlStep
 from util.vec import Vec3
 from rlbot.agents.base_agent import SimpleControllerState
 
-class NestedArrayStructure:
+def NestedArray(num_time_steps,num_guess_paths):
 
-    def __init__(self,num_time_steps,num_guess_paths):
+    temp_list = [0] * num_guess_paths
+    base_array = np.array([0,np.asarray(temp_list).reshape(num_guess_paths,1)],dtype = object)
 
-        temp_list = [0] * num_guess_paths
-        base_array = np.array([0,np.asarray(temp_list).reshape(num_guess_paths,1)],dtype = object)
+    for x in range(num_time_steps-1):
 
-        for x in range(num_time_steps-1):
+        temp_array = base_array
+        for y in range(num_guess_paths-1):
+            base_array = np.vstack((base_array,temp_array))
+        base_array = np.array([0,base_array],dtype = object)
 
-            temp_array = base_array
-            for y in range(num_guess_paths-1):
-                base_array = np.vstack((base_array,temp_array))
-            base_array = np.array([0,base_array],dtype = object)
+    return base_array
 
 
 def find_DSM_path(target: Vec3, pos_steps, velocity_steps, L_steps, controls_tracker, num_guess_paths, num_time_steps, time_step):
